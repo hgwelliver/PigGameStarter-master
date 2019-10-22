@@ -13,6 +13,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.view.View.OnClickListener;
 
+import java.util.Random;
+
 /**
  * A GUI for a human to play Pig. This default version displays the GUI but is incomplete
  *
@@ -31,7 +33,7 @@ public class PigHumanPlayer extends GameHumanPlayer implements OnClickListener {
     private TextView    messageTextView     = null;
     private ImageButton dieImageButton      = null;
     private Button      holdButton          = null;
-
+    private int diceValue;
     // the android activity that we are running
     private GameMainActivity myActivity;
 
@@ -61,6 +63,31 @@ public class PigHumanPlayer extends GameHumanPlayer implements OnClickListener {
     @Override
     public void receiveInfo(GameInfo info) {
         //TODO You will implement this method to receive state objects from the game
+        if(info instanceof PigGameState){
+            //display proper score
+            String foo = "" + ((PigGameState) info).getPlayer1Score();
+            playerScoreTextView.setText(foo);
+            oppScoreTextView.setText(   "" + ((PigGameState) info).getPlayer0Score());
+
+            //die images
+            if(diceValue ==1){dieImageButton.setImageResource(R.drawable.face1);}
+            else if(diceValue ==2){dieImageButton.setImageResource(R.drawable.face2);}
+            else if(diceValue ==3){dieImageButton.setImageResource(R.drawable.face3);}
+            else if(diceValue ==4){dieImageButton.setImageResource(R.drawable.face4);}
+            else if(diceValue ==5){dieImageButton.setImageResource(R.drawable.face5);}
+            else if(diceValue ==6){dieImageButton.setImageResource(R.drawable.face6);}
+            dieImageButton.invalidate();
+
+            return;
+        }
+        else{
+            this.flash(Color.RED, 2);
+            return;
+        }
+
+
+
+
     }//receiveInfo
 
     /**
@@ -72,6 +99,22 @@ public class PigHumanPlayer extends GameHumanPlayer implements OnClickListener {
      */
     public void onClick(View button) {
         //TODO  You will implement this method to send appropriate action objects to the game
+
+        //if hold
+        if(button.equals(holdButton)){
+            PigHoldAction h = new PigHoldAction(this);
+            game.sendAction(h);
+        }
+        if(button.equals(dieImageButton)){
+            Random rand = new Random();
+            diceValue = rand.nextInt(5 + 1) + 1;
+
+            PigRollAction p = new PigRollAction(this);
+            game.sendAction(p);
+
+        }
+
+
     }// onClick
 
     /**

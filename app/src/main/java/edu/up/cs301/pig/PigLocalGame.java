@@ -52,7 +52,7 @@ public class PigLocalGame extends LocalGame {
                 pGS.setPlayer0Score(pGS.player0Score += pGS.getCurrentTotal());
             }
             if(ID == 1) {
-                pGS.setPlayer1Score(pGS.player0Score += pGS.getCurrentTotal());
+                pGS.setPlayer1Score(pGS.player1Score += pGS.getCurrentTotal());
             }
 
             pGS.setCurrentTotal(0);
