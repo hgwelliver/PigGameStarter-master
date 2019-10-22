@@ -33,7 +33,8 @@ public class PigHumanPlayer extends GameHumanPlayer implements OnClickListener {
     private TextView    messageTextView     = null;
     private ImageButton dieImageButton      = null;
     private Button      holdButton          = null;
-    private int diceValue;
+    private int diceValue=1;
+    private int isClicked;
     // the android activity that we are running
     private GameMainActivity myActivity;
 
@@ -65,24 +66,38 @@ public class PigHumanPlayer extends GameHumanPlayer implements OnClickListener {
         //TODO You will implement this method to receive state objects from the game
         if(info instanceof PigGameState){
             //display proper score
-            String foo = "" + ((PigGameState) info).getPlayer1Score();
+            String foo = "" + ((PigGameState) info).getPlayer0Score();
             playerScoreTextView.setText(foo);
-            oppScoreTextView.setText(   "" + ((PigGameState) info).getPlayer0Score());
-
+            playerScoreTextView.invalidate();
+            oppScoreTextView.setText(   "" + ((PigGameState) info).getPlayer1Score());
+            oppScoreTextView.invalidate();
+            int total =((PigGameState) info).getCurrentTotal();
+            turnTotalTextView.setText(" " + total);
+            turnTotalTextView.invalidate();
             //die images
-            if(diceValue ==1){dieImageButton.setImageResource(R.drawable.face1);}
-            else if(diceValue ==2){dieImageButton.setImageResource(R.drawable.face2);}
-            else if(diceValue ==3){dieImageButton.setImageResource(R.drawable.face3);}
-            else if(diceValue ==4){dieImageButton.setImageResource(R.drawable.face4);}
-            else if(diceValue ==5){dieImageButton.setImageResource(R.drawable.face5);}
-            else if(diceValue ==6){dieImageButton.setImageResource(R.drawable.face6);}
-            dieImageButton.invalidate();
-
+            diceValue = ((PigGameState)info).getCurrentDiceVal();
+            //if(isClicked==1) {
+                if (diceValue == 1) {
+                    dieImageButton.setImageResource(R.drawable.face1);
+                } else if (diceValue == 2) {
+                    dieImageButton.setImageResource(R.drawable.face2);
+                } else if (diceValue == 3) {
+                    dieImageButton.setImageResource(R.drawable.face3);
+                } else if (diceValue == 4) {
+                    dieImageButton.setImageResource(R.drawable.face4);
+                } else if (diceValue == 5) {
+                    dieImageButton.setImageResource(R.drawable.face5);
+                } else if (diceValue == 6) {
+                    dieImageButton.setImageResource(R.drawable.face6);
+                }
+                dieImageButton.invalidate();
+           // }
             return;
         }
         else{
-            this.flash(Color.RED, 2);
+            this.flash(Color.BLUE, 3);
             return;
+
         }
 
 
@@ -106,11 +121,11 @@ public class PigHumanPlayer extends GameHumanPlayer implements OnClickListener {
             game.sendAction(h);
         }
         if(button.equals(dieImageButton)){
-            Random rand = new Random();
-            diceValue = rand.nextInt(5 + 1) + 1;
 
+            //isClicked = 1;
             PigRollAction p = new PigRollAction(this);
             game.sendAction(p);
+            dieImageButton.invalidate();
 
         }
 

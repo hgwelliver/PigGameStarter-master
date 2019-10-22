@@ -8,7 +8,7 @@ public class PigGameState extends GameState {
     protected int player0Score = 0;
     protected int player1Score = 0;
     protected int currentTotal = 0;
-    protected int currentDiceVal = 1;
+    protected int currentDiceVal = 2;
 
     public PigGameState(){
 
