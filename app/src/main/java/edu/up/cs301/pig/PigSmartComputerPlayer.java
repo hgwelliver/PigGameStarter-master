@@ -35,36 +35,25 @@ public class PigSmartComputerPlayer extends GameComputerPlayer {
         if (info instanceof PigGameState) {
             id = ((PigGameState)info).getPlayerid();
         }
+        if(id ==0){return;}
         if (id == 1) {
 
-            int score1 = ((PigGameState) info).getPlayer1Score();
-            int score0 = ((PigGameState) info).getPlayer0Score();
-            int winning = score1 - score0;
+            int score = ((PigGameState) info).getCurrentTotal();
+            //int score0 = ((PigGameState) info).getPlayer0Score();
+            //int winning = score1 - score0;
             PigRollAction p = new PigRollAction(this);
-            game.sendAction(p);
-            if(winning > 0) {
 
-                game.sendAction(p);
-                while(((PigGameState) info).getCurrentTotal() <4){
-
-                    game.sendAction(p);
-
-                }
+            if (score > 5) {
                 PigHoldAction h = new PigHoldAction(this);
                 game.sendAction(h);
 
 
             }
-            if(winning<=0){
+            else {
                 game.sendAction(p);
-                game.sendAction(p);
-
-                }
-                PigHoldAction h = new PigHoldAction(this);
-                game.sendAction(h);
 
             }
-
+        }
         }
         }//receiveInfo
 
